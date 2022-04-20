@@ -19,7 +19,7 @@ CREATE TABLE `vehicle`.`ADVAIT_customer` (
 
 CREATE TABLE `vehicle`.`ADVAIT_application` (
   `application_id` VARCHAR(20) NOT NULL UNIQUE,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `vehicle_id` VARCHAR(45) NOT NULL UNIQUE,
   `application_status` CHAR(8) NOT NULL,
   `coverage` VARCHAR(45) NOT NULL,
@@ -33,8 +33,8 @@ constraint fk_cust_id foreign key (`cust_id`) references `vehicle`.`ADVAIT_custo
 
 CREATE TABLE `vehicle`.`ADVAIT_quote` (
   `quote_id` VARCHAR(20) NOT NULL UNIQUE,
-  `application_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `application_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `issue_date` DATETIME NOT NULL,
   `valid_from_date` DATETIME NOT NULL,
   `valid_till_date` DATETIME NOT NULL,
@@ -57,8 +57,8 @@ constraint fk_cust_id1 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_insurance_policy` (
   `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
-  `application_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `application_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `department_name` VARCHAR(20) NOT NULL,
   `policy_number` VARCHAR(20) NOT NULL UNIQUE,
   `start_date` DATETIME NOT NULL,
@@ -78,7 +78,7 @@ constraint fk_cust_id2 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_premium_payment` (
   `premium_payment_id` VARCHAR(20) NOT NULL UNIQUE,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `policy_number` VARCHAR(20) NOT NULL UNIQUE,
   `premium_payment_schedule` DATETIME NOT NULL,
   `premium_payment_amount` INT NOT NULL,
@@ -94,7 +94,7 @@ constraint fk_cust_id3 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_vehicle` (
   `vehicle_id` VARCHAR(20) NOT NULL UNIQUE,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `policy_id` VARCHAR(20) NOT NULL UNIQUE,
   `dependent_nok_id` VARCHAR(20) NOT NULL ,
   `vehicle_registration_number` VARCHAR(20) NOT NULL UNIQUE,
@@ -118,7 +118,7 @@ constraint fk_cust_id4 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_claim` (
   `claim_id` VARCHAR(20) NOT NULL UNIQUE,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `agreement_id` VARCHAR(20) NOT NULL,
   `claim_amount` INT NOT NULL,
   `incident_id` VARCHAR(20) NOT NULL UNIQUE,
@@ -136,8 +136,8 @@ constraint fk_cust_id5 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_claim_statement` (
   `claim_statement_id` VARCHAR(20) NOT NULL UNIQUE,
-  `claim_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `claim_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `vehicle_id` VARCHAR(20) NOT NULL,
   `date_settled` DATE NOT NULL,
   `amount_paid` INT NOT NULL,
@@ -157,7 +157,7 @@ constraint fk_claim_id foreign key (`claim_id`) references `vehicle`.`ADVAIT_cla
 
 CREATE TABLE `vehicle`.`ADVAIT_staff` (
   `staff_id` VARCHAR(20) NOT NULL UNIQUE,
-  `company_name` VARCHAR(20) NOT NULL,
+  `company_name` VARCHAR(20) NOT NULL UNIQUE,
   `staff_fname` VARCHAR(10) NOT NULL,
   `staff_lname` VARCHAR(10) NOT NULL,
   `staff_address` VARCHAR(20) NOT NULL,
@@ -180,7 +180,7 @@ constraint fk_company_name foreign key (`company_name`) references `vehicle`.`AD
 
 CREATE TABLE `vehicle`.`ADVAIT_department`(
     `department_name` VARCHAR(10) NOT NULL UNIQUE,
-    `company_name` VARCHAR(20) NOT NULL,
+    `company_name` VARCHAR(20) NOT NULL UNIQUE,
     `office` VARCHAR(10) NOT NULL,
     `contact_information` VARCHAR(20) NOT NULL,
     `department_staff` VARCHAR(50) NOT NULL,
@@ -195,8 +195,8 @@ constraint fk_company_name2 foreign key (`company_name`) references `vehicle`.`A
 
 CREATE TABLE `vehicle`.`ADVAIT_office`(
     `office_name` VARCHAR(20) NOT NULL UNIQUE,
-    `department_name` VARCHAR(10) NOT NULL,
-    `company_name` VARCHAR(20) NOT NULL,
+    `department_name` VARCHAR(10) NOT NULL UNIQUE,
+    `company_name` VARCHAR(20) NOT NULL UNIQUE,
     `office_leader` VARCHAR(10) NOT NULL,
     `contact_information` VARCHAR(20) NOT NULL,
     `adderss` VARCHAR(20) NOT NULL,
@@ -217,7 +217,7 @@ constraint fk_department_name foreign key (`department_name`) references `vehicl
 
 CREATE TABLE `vehicle`.`ADVAIT_membership`(
     `membership_id` VARCHAR(20) NOT NULL UNIQUE,
-    `cust_id` VARCHAR(20)NOT NULL,
+    `cust_id` VARCHAR(20)NOT NULL UNIQUE,
     `membership_type` VARCHAR(20) NOT NULL,
     `organisation_contact` CHAR(15) NOT NULL,
     PRIMARY KEY (`membership_id`),
@@ -231,8 +231,8 @@ constraint fk_cust_id7 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 CREATE TABLE `vehicle`.`ADVAIT_vehicle_service` (
   `vehicle_service` VARCHAR(20) NOT NULL UNIQUE,
-  `vehicle_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `vehicle_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `department_name` CHAR(20) NOT NULL,
   `vehicle_service_address` VARCHAR(20) NOT NULL,
   `vehicle_sevice_contact` VARCHAR(20) NOT NULL,
@@ -252,9 +252,9 @@ constraint fk_vehicle_id foreign key (`vehicle_id`) references `vehicle`.`ADVAIT
 
 CREATE TABLE `vehicle`.`ADVAIT_NOK` (
   `NOK_id` VARCHAR(20) NOT NULL UNIQUE,
-  `agreement_id` VARCHAR(20) NOT NULL,
-  `application_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
+  `application_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `NOK_name` VARCHAR(20) NOT NULL,
   `NOK_address` VARCHAR(20) NOT NULL,
   `NOK_phone_number` INT NOT NULL UNIQUE,
@@ -294,9 +294,9 @@ CREATE TABLE `vehicle`.`ADVAIT_insurance_company` (
 
 CREATE TABLE `vehicle`.`ADVAIT_policy_renewable` (
   `policy_renewable_id` VARCHAR(20) NOT NULL UNIQUE,
-  `agreement_id` VARCHAR(20) NOT NULL,
-  `application_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
+  `application_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `date_of_renewal` DATE NOT NULL,
   `type_of_renewal` CHAR(15) NOT NULL,
   PRIMARY KEY (`policy_renewable_id`),
@@ -327,8 +327,8 @@ CREATE TABLE `vehicle`.`ADVAIT_incident` (
 
   CREATE TABLE `vehicle`.`ADVAIT_incident_report` (
   `incident_report_id` VARCHAR(20) NOT NULL UNIQUE,
-  `incident_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `incident_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `incident_inspector` VARCHAR(20) NOT NULL,
   `incident_cost` INT NOT NULL,
   `incident_type` CHAR(10) NOT NULL,
@@ -350,7 +350,7 @@ constraint fk_incident_id foreign key (`incident_id`) references `vehicle`.`ADVA
 
   CREATE TABLE `vehicle`.`ADVAIT_coverage` (
   `coverage_id` VARCHAR(20) NOT NULL UNIQUE,
-  `company_name` VARCHAR(20) NOT NULL,
+  `company_name` VARCHAR(20) NOT NULL UNIQUE,
   `coverage_amount` INT NOT NULL,
   `coverage_type` CHAR(10) NOT NULL,
   `coverage_level` CHAR(15) NOT NULL,
@@ -368,7 +368,7 @@ constraint fk_company_name4 foreign key (`company_name`) references `vehicle`.`A
 
   CREATE TABLE `vehicle`.`ADVAIT_product` (
   `product_number` VARCHAR(20) NOT NULL UNIQUE,
-  `company_name` VARCHAR(20) NOT NULL,
+  `company_name` VARCHAR(20) NOT NULL UNIQUE,
   `product_price` INT NOT NULL,
   `product_type` CHAR(15) NOT NULL,
   PRIMARY KEY (`product_number`),
@@ -383,8 +383,8 @@ constraint fk_company_name5 foreign key (`company_name`) references `vehicle`.`A
   
   CREATE TABLE `vehicle`.`ADVAIT_receipt` (
   `receipt_id` VARCHAR(20) NOT NULL UNIQUE,
-  `premium_payment_id` VARCHAR(20) NOT NULL,
-  `cust_id` VARCHAR(20) NOT NULL,
+  `premium_payment_id` VARCHAR(20) NOT NULL UNIQUE,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `cost` INT NOT NULL,
   `time` DATE NOT NULL,
   PRIMARY KEY (`receipt_id`),
@@ -401,7 +401,7 @@ constraint fk_premium_payment_id foreign key (`premium_payment_id`) references `
 
   CREATE TABLE `vehicle`.`ADVAIT_insurance_policy_coverage` (
   `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
-  `coverage_id` VARCHAR(20) NOT NULL,
+  `coverage_id` VARCHAR(20) NOT NULL UNIQUE,
   PRIMARY KEY (`agreement_id`),
   UNIQUE INDEX `agreement_id_UNIQUE` (`agreement_id` ASC) VISIBLE,
   UNIQUE INDEX `coverage_id_UNIQUE` (`coverage_id` ASC) VISIBLE);
