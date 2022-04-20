@@ -3,24 +3,24 @@ show schemas;
 use vehicle;
 
 CREATE TABLE `vehicle`.`ADVAIT_customer` (
-  `cust_id` VARCHAR(20) NOT NULL,
+  `cust_id` VARCHAR(20) NOT NULL UNIQUE,
   `cust_fname` VARCHAR(45) NOT NULL,
   `cust_lname` VARCHAR(45) NOT NULL,
   `cust_dob` DATE NOT NULL,
   `cust_gender` CHAR(2) NOT NULL,
   `cust_address` VARCHAR(45) NOT NULL,
-  `cust_mob_number` INT NOT NULL,
-  `cust_email` VARCHAR(45) NOT NULL,
-  `cust_passport_num` VARCHAR(45) NOT NULL,
+  `cust_mob_number` INT NOT NULL UNIQUE,
+  `cust_email` VARCHAR(45) NOT NULL UNIQUE,
+  `cust_passport_num` VARCHAR(45) NOT NULL UNIQUE,
   `cust_maritial_status` VARCHAR(45) NOT NULL,
-  `cust_pps_number` INT NOT NULL,
+  `cust_pps_number` INT NOT NULL UNIQUE,
   PRIMARY KEY (`cust_id`),
   UNIQUE INDEX `cust_id_UNIQUE` (`cust_id` ASC) VISIBLE);
 
 CREATE TABLE `vehicle`.`ADVAIT_application` (
-  `application_id` VARCHAR(20) NOT NULL,
+  `application_id` VARCHAR(20) NOT NULL UNIQUE,
   `cust_id` VARCHAR(20) NOT NULL,
-  `vehicle_id` VARCHAR(45) NOT NULL,
+  `vehicle_id` VARCHAR(45) NOT NULL UNIQUE,
   `application_status` CHAR(8) NOT NULL,
   `coverage` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`application_id`),
@@ -32,7 +32,7 @@ constraint fk_cust_id foreign key (`cust_id`) references `vehicle`.`ADVAIT_custo
 
 
 CREATE TABLE `vehicle`.`ADVAIT_quote` (
-  `quote_id` VARCHAR(20) NOT NULL,
+  `quote_id` VARCHAR(20) NOT NULL UNIQUE,
   `application_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `issue_date` DATETIME NOT NULL,
@@ -56,11 +56,11 @@ constraint fk_cust_id1 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_insurance_policy` (
-  `agreement_id` VARCHAR(20) NOT NULL,
+  `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
   `application_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `department_name` VARCHAR(20) NOT NULL,
-  `policy_number` VARCHAR(20) NOT NULL,
+  `policy_number` VARCHAR(20) NOT NULL UNIQUE,
   `start_date` DATETIME NOT NULL,
   `expiry_date` DATETIME NOT NULL,
   `term_condition_description` VARCHAR(100) NULL,
@@ -77,12 +77,12 @@ constraint fk_cust_id2 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_premium_payment` (
-  `premium_payment_id` VARCHAR(20) NOT NULL,
+  `premium_payment_id` VARCHAR(20) NOT NULL UNIQUE,
   `cust_id` VARCHAR(20) NOT NULL,
-  `policy_number` VARCHAR(20) NOT NULL,
+  `policy_number` VARCHAR(20) NOT NULL UNIQUE,
   `premium_payment_schedule` DATETIME NOT NULL,
   `premium_payment_amount` INT NOT NULL,
-  `receipt_id` VARCHAR(20) NOT NULL,
+  `receipt_id` VARCHAR(20) NOT NULL UNIQUE,
   UNIQUE INDEX `premium_payment_id_UNIQUE` (`premium_payment_id` ASC) VISIBLE,
   PRIMARY KEY (`premium_payment_id`),
   UNIQUE INDEX `cust_id_UNIQUE` (`cust_id` ASC) VISIBLE);
@@ -93,19 +93,19 @@ constraint fk_cust_id3 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_vehicle` (
-  `vehicle_id` VARCHAR(20) NOT NULL,
+  `vehicle_id` VARCHAR(20) NOT NULL UNIQUE,
   `cust_id` VARCHAR(20) NOT NULL,
-  `policy_id` VARCHAR(20) NOT NULL,
-  `dependent_nok_id` VARCHAR(20) NOT NULL,
-  `vehicle_registration_number` VARCHAR(20) NOT NULL,
+  `policy_id` VARCHAR(20) NOT NULL UNIQUE,
+  `dependent_nok_id` VARCHAR(20) NOT NULL ,
+  `vehicle_registration_number` VARCHAR(20) NOT NULL UNIQUE,
   `vehicle_value` INT NOT NULL,
   `vehicle_type` VARCHAR(20) NOT NULL,
   `vehicle_size` INT NOT NULL,
   `vehicle_number_of_seat` INT NOT NULL,
   `vehicle_manufacturer` VARCHAR(20) NOT NULL,
-  `vehicle_engine_number` INT NOT NULL,
-  `vehicle_chasis_number` INT NOT NULL,
-  `vehicle_number` VARCHAR(20) NOT NULL,
+  `vehicle_engine_number` INT NOT NULL UNIQUE,
+  `vehicle_chasis_number` INT NOT NULL UNIQUE,
+  `vehicle_number` VARCHAR(20) NOT NULL UNIQUE,
   `vehicle_model_number` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`vehicle_id`),
   UNIQUE INDEX `vehicle_id_UNIQUE` (`vehicle_id` ASC) VISIBLE,
@@ -117,11 +117,11 @@ constraint fk_cust_id4 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_claim` (
-  `claim_id` VARCHAR(20) NOT NULL,
+  `claim_id` VARCHAR(20) NOT NULL UNIQUE,
   `cust_id` VARCHAR(20) NOT NULL,
   `agreement_id` VARCHAR(20) NOT NULL,
   `claim_amount` INT NOT NULL,
-  `incident_id` VARCHAR(20) NOT NULL,
+  `incident_id` VARCHAR(20) NOT NULL UNIQUE,
   `damage_type` VARCHAR(20) NOT NULL,
   `date_of_claim` DATE NOT NULL,
   `calim_status` CHAR(10) NOT NULL,
@@ -135,7 +135,7 @@ constraint fk_cust_id5 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_claim_statement` (
-  `claim_statement_id` VARCHAR(20) NOT NULL,
+  `claim_statement_id` VARCHAR(20) NOT NULL UNIQUE,
   `claim_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `vehicle_id` VARCHAR(20) NOT NULL,
@@ -156,18 +156,18 @@ constraint fk_claim_id foreign key (`claim_id`) references `vehicle`.`ADVAIT_cla
 
 
 CREATE TABLE `vehicle`.`ADVAIT_staff` (
-  `staff_id` VARCHAR(20) NOT NULL,
+  `staff_id` VARCHAR(20) NOT NULL UNIQUE,
   `company_name` VARCHAR(20) NOT NULL,
   `staff_fname` VARCHAR(10) NOT NULL,
   `staff_lname` VARCHAR(10) NOT NULL,
   `staff_address` VARCHAR(20) NOT NULL,
-  `staff_contact` INT NOT NULL,
+  `staff_contact` INT NOT NULL UNIQUE,
   `staff_gender` CHAR(2) NOT NULL,
   `staff_maritial_status` CHAR(8) NOT NULL,
   `staff_nationality` CHAR(15) NOT NULL,
   `staff_qualification` VARCHAR(20) NOT NULL,
   `staff_allowance` INT NOT NULL,
-  `staff_pps_number` INT NOT NULL,
+  `staff_pps_number` INT NOT NULL UNIQUE,
   PRIMARY KEY (`staff_id`),
   UNIQUE INDEX `staff_id_UNIQUE` (`staff_id` ASC) VISIBLE,
   UNIQUE INDEX `company_name_UNIQUE` (`company_name` ASC) VISIBLE);
@@ -179,7 +179,7 @@ constraint fk_company_name foreign key (`company_name`) references `vehicle`.`AD
 
 
 CREATE TABLE `vehicle`.`ADVAIT_department`(
-    `department_name` VARCHAR(10) NOT NULL,
+    `department_name` VARCHAR(10) NOT NULL UNIQUE,
     `company_name` VARCHAR(20) NOT NULL,
     `office` VARCHAR(10) NOT NULL,
     `contact_information` VARCHAR(20) NOT NULL,
@@ -194,7 +194,7 @@ constraint fk_company_name2 foreign key (`company_name`) references `vehicle`.`A
 
 
 CREATE TABLE `vehicle`.`ADVAIT_office`(
-    `office_name` VARCHAR(20) NOT NULL,
+    `office_name` VARCHAR(20) NOT NULL UNIQUE,
     `department_name` VARCHAR(10) NOT NULL,
     `company_name` VARCHAR(20) NOT NULL,
     `office_leader` VARCHAR(10) NOT NULL,
@@ -216,7 +216,7 @@ constraint fk_department_name foreign key (`department_name`) references `vehicl
 
 
 CREATE TABLE `vehicle`.`ADVAIT_membership`(
-    `membership_id` VARCHAR(20) NOT NULL,
+    `membership_id` VARCHAR(20) NOT NULL UNIQUE,
     `cust_id` VARCHAR(20)NOT NULL,
     `membership_type` VARCHAR(20) NOT NULL,
     `organisation_contact` CHAR(15) NOT NULL,
@@ -230,7 +230,7 @@ constraint fk_cust_id7 foreign key (`cust_id`) references `vehicle`.`ADVAIT_cust
 
 
 CREATE TABLE `vehicle`.`ADVAIT_vehicle_service` (
-  `vehicle_service` VARCHAR(20) NOT NULL,
+  `vehicle_service` VARCHAR(20) NOT NULL UNIQUE,
   `vehicle_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `department_name` CHAR(20) NOT NULL,
@@ -251,13 +251,13 @@ constraint fk_vehicle_id foreign key (`vehicle_id`) references `vehicle`.`ADVAIT
     
 
 CREATE TABLE `vehicle`.`ADVAIT_NOK` (
-  `NOK_id` VARCHAR(20) NOT NULL,
+  `NOK_id` VARCHAR(20) NOT NULL UNIQUE,
   `agreement_id` VARCHAR(20) NOT NULL,
   `application_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `NOK_name` VARCHAR(20) NOT NULL,
   `NOK_address` VARCHAR(20) NOT NULL,
-  `NOK_phone_number` INT NOT NULL,
+  `NOK_phone_number` INT NOT NULL UNIQUE,
   `NOK_martial_status` CHAR(8) NOT NULL,
   `NOK_gender` CHAR(2) NOT NULL,
   PRIMARY KEY (`NOK_id`),
@@ -279,12 +279,12 @@ constraint fk_agreement_id foreign key (`agreement_id`) references `vehicle`.`AD
 
 
 CREATE TABLE `vehicle`.`ADVAIT_insurance_company` (
-  `company_name` VARCHAR(20) NOT NULL,
+  `company_name` VARCHAR(20) NOT NULL UNIQUE,
   `company_address` VARCHAR(20) NOT NULL,
   `company_contact_number` INT NOT NULL,
-  `company_fax` INT NOT NULL,
-  `company_email` VARCHAR(20) NOT NULL,
-  `company_website` VARCHAR(20) NOT NULL,
+  `company_fax` INT NOT NULL UNIQUE UNIQUE,
+  `company_email` VARCHAR(20) NOT NULL UNIQUE,
+  `company_website` VARCHAR(20) NOT NULL UNIQUE,
   `company_location` VARCHAR(20) NOT NULL,
   `company_departmant_name` VARCHAR(20) NOT NULL,
   `company_office_name` VARCHAR(20) NOT NULL,
@@ -293,7 +293,7 @@ CREATE TABLE `vehicle`.`ADVAIT_insurance_company` (
     
 
 CREATE TABLE `vehicle`.`ADVAIT_policy_renewable` (
-  `policy_renewable_id` VARCHAR(20) NOT NULL,
+  `policy_renewable_id` VARCHAR(20) NOT NULL UNIQUE,
   `agreement_id` VARCHAR(20) NOT NULL,
   `application_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
@@ -317,7 +317,7 @@ constraint fk_agreement_id2 foreign key (`agreement_id`) references `vehicle`.`A
     
 
 CREATE TABLE `vehicle`.`ADVAIT_incident` (
-  `incident_id` VARCHAR(20) NOT NULL,
+  `incident_id` VARCHAR(20) NOT NULL UNIQUE,
   `incident_type` VARCHAR(30) NOT NULL,
   `incident_date` DATE NOT NULL,
   `description` VARCHAR(100) NOT NULL,
@@ -326,7 +326,7 @@ CREATE TABLE `vehicle`.`ADVAIT_incident` (
 
 
   CREATE TABLE `vehicle`.`ADVAIT_incident_report` (
-  `incident_report_id` VARCHAR(20) NOT NULL,
+  `incident_report_id` VARCHAR(20) NOT NULL UNIQUE,
   `incident_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `incident_inspector` VARCHAR(20) NOT NULL,
@@ -349,7 +349,7 @@ constraint fk_incident_id foreign key (`incident_id`) references `vehicle`.`ADVA
 
 
   CREATE TABLE `vehicle`.`ADVAIT_coverage` (
-  `coverage_id` VARCHAR(20) NOT NULL,
+  `coverage_id` VARCHAR(20) NOT NULL UNIQUE,
   `company_name` VARCHAR(20) NOT NULL,
   `coverage_amount` INT NOT NULL,
   `coverage_type` CHAR(10) NOT NULL,
@@ -367,7 +367,7 @@ constraint fk_company_name4 foreign key (`company_name`) references `vehicle`.`A
 
 
   CREATE TABLE `vehicle`.`ADVAIT_product` (
-  `product_number` VARCHAR(20) NOT NULL,
+  `product_number` VARCHAR(20) NOT NULL UNIQUE,
   `company_name` VARCHAR(20) NOT NULL,
   `product_price` INT NOT NULL,
   `product_type` CHAR(15) NOT NULL,
@@ -382,7 +382,7 @@ constraint fk_company_name5 foreign key (`company_name`) references `vehicle`.`A
 
   
   CREATE TABLE `vehicle`.`ADVAIT_receipt` (
-  `receipt_id` VARCHAR(20) NOT NULL,
+  `receipt_id` VARCHAR(20) NOT NULL UNIQUE,
   `premium_payment_id` VARCHAR(20) NOT NULL,
   `cust_id` VARCHAR(20) NOT NULL,
   `cost` INT NOT NULL,
@@ -400,7 +400,7 @@ constraint fk_premium_payment_id foreign key (`premium_payment_id`) references `
 
 
   CREATE TABLE `vehicle`.`ADVAIT_insurance_policy_coverage` (
-  `agreement_id` VARCHAR(20) NOT NULL,
+  `agreement_id` VARCHAR(20) NOT NULL UNIQUE,
   `coverage_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`agreement_id`),
   UNIQUE INDEX `agreement_id_UNIQUE` (`agreement_id` ASC) VISIBLE,
@@ -485,7 +485,134 @@ insert into advait_staff values
 
 
 insert into advait_department values
-('claims', )
+('claims',)
+
+insert into ADVAIT_membership values
+('thfstsj', 'ethqeguh', 'gold', 'ramesh'),
+('wtetfsbg', 'felidfbe', 'silver', 'suresh'),
+('yywehsy', 'egjnfb', 'diamond', 'kamlesh'),
+('hjgvhjgd', 'rutyb', 'platinum', 'samuel'),
+('vghchsj', 'ehpirhrnj', 'platinum', 'stanley');
+
+
+
+insert into ADVAIT_vehicle_service values
+('kjhyugy','','ethqeguh','tyre_department','wasseypur dhanbad','6876543209','satyam'),
+('tjhrrgy','','felidfbe','glass_department','patna','7800543204','rahul'),
+('djhegy','','egjnfb','engine_department','thane mumbai','9876543209','priyansh'),
+('ffyugy','','rutyb','interior_department','hubli circle','8873543209','devansh'),
+('hyuww','','ehpirhrnj','exterior_department','bokaro','7876543299','shivam');
+
+
+
+insert into ADVAIT_NOK values
+('tgddvd','dhhjb','tukryukg','ethqeguh','tony','delhi',8765453622,'yes','M'),
+('teeddvd','vgfhd','wpijgsdv','felidfbe','rony','canout palace',8335453622,'yes','F'),
+('tegdgdvd','chhdddb','cwrghij','egjnfb','remo','sarojni nagar',8766453622,'no','M'),
+('tpoddvd','kifjfh','vwsfvon','rutyb','sriyansh','pune',8765483622,'yes','F'),
+('ssnmvd','ccggdhs','mjbvwfwi','ehpirhrnj','neel','jaipur',8769453622,'no','F');
+
+
+insert into ADVAIT_insurance_company values
+('Go Digit General','Koramangala',7885899065,101,'GoDigit@gmail.com','Go.com','Bengaluru','Sales_department','G.D.G Insurance Ltd'),
+('Bajaj Allianz','Commerce Zone',7888899065,102,'Bajaj@gmail.com','Bajaj.com','Pune','Mngt&Adm.department','B.A.G Insurance Ltd'),
+('Cholamandalam','Hari nivas Towers',6885899065,103,'Cholam@gmail.com','Cholamandalam.com','Chennai','service_department','C. Insurance Ltd'),
+('Navi General','kalyan nagar',7885899060,104,'Navi@gmail.com','Navi.com','Mumbai','parts_department','N.G Insurance Ltd'),
+('Magma HDI General','howrah',7885899061,105,'Magma@gmail.com','Magma.com','kolkata','service_department','M.H.G Insurance Ltd');
+
+
+insert into ADVAIT_policy_renewable values
+('cvbmvd','dhhjb','tukryukg','ethqeguh',2018-01-12,''),
+('ewqmvh','vgfhd','wpijgsdv','felidfbe',2018-01-12,''),
+('ertmvr','chhdddb','cwrghij','egjnfb',2018-01-12,''),
+('tghmvt','kifjfh','vwsfvon','rutyb',2018-01-12,''),
+('uhgmtd','ccggdhs','mjbvwfwi','ehpirhrnj',2018-01-12,'');
+
+
+
+insert into ADVAIT_incident values
+('hjukvd','',2020-01-06,''),
+('hrrkvd','',2020-03-02,''),
+('hrtkvd','',2020-04-11,''),
+('hhhkvd','',2020-05-10,''),
+('hbnvkvd','',2020-03-08,'');
+
+
+
+
+insert into ADVAIT_incident_report values
+('kjkyjj','hjukvd','ethqeguh','tushar',5000,'',''),
+('krryjj','hrrkvd','felidfbe','karan',6000,'',''),
+('kggyjj','hrtkvd','egjnfb','akash',5700,'',''),
+('khjyjj','hhhkvd','rutyb','gaurav',6600,'',''),
+('kghjyj','hbnvkvd','ehpirhrnj','arjun',4500,'','');
+
+
+insert into ADVAIT_coverage values
+('eisusgd','Go Digit General',4000,'','','jfijfd','',''),
+('eieesgd','Bajaj Allianz',6000,'','','jfrrfd','',''),
+('eiffsgd','Cholamandalam',7000,'','','jftghfd','',''),
+('edfsgd','Navi General',10000,'','','jfigfd','',''),
+('ehyusgd','Magma HDI General',4500,'','','jkiujfd','','');
+
+
+
+
+insert into ADVAIT_product values
+('pertgs','Go Digit General',2000,''),
+('peedrgs','Bajaj Allianz',3400,''),
+('pcvbs','Cholamandalam',8000,''),
+('phnbggs','Navi General',1200,''),
+('plokjs','Magma HDI General',3800,'');
+
+
+insert into ADVAIT_receipt values
+('lkjygd','','ethqeguh',7000,2022-01-08),
+('lkgggd','','felidfbe',8000,2022-02-11),
+('lkhhgd','','egjnfb',9000,2022-03-01),
+('lknngd','','rutyb',3400,2022-04-03),
+('lkjjgd','','ehpirhrnj',5000,2022-01-02);
+
+
+
+
+insert into ADVAIT_insurance_policy_coverage values
+('dhhjb','eisusgd'),
+('vgfhd','eieesgd'),
+('chhdddb','eiffsgd'),
+('kifjfh','edfsgd'),
+('ccggdhs','ehyusgd');
+
+
+
+
+
+
+
+/* QUERIES */
+
+/* 1 */
+
+select c.cust_id, v.vehicle_id from ADVAIT_customer as c, advait_vehicle as v
+where c.cust_id in (select cust_id from advait_claim where calim_status is null);
+
+/* 2 */ 
+
+select c.cust_id from advait_customer as c 
+where c.cust_id in (
+			select cust_id from advait_premium_payment where premium_payment_amount > (
+						select sum(cust_id) from advait_customer));
+                        
+/* 5 */ 
+
+select v.vehicle_type from advait_vehicle as v where v.cust_id in (
+						select cust_id from advait_premium_payment where premium_payment_amount > (
+													select vehicle_number from advait_vehicle));
+
+/* 6 */ 
+
+select * from advait_customer as c where c.cust_id in (select cust_id from advait_claim where claim_amount < (select coverage_amount from advait_coverage) and claim_amount > 
+(select claim_statement_id + vehicle_id + claim_id + cust_id from advait_claim_statement)); 
 
 
 
@@ -622,7 +749,6 @@ select v.vehicle_type from advait_vehicle as v where v.cust_id in (
 
 select * from advait_customer as c where c.cust_id in (select cust_id from advait_claim where claim_amount < (select coverage_amount from advait_coverage) and claim_amount > 
 (select claim_statement_id + vehicle_id + claim_id + cust_id from advait_claim_statement)); 
-
 
 
 
